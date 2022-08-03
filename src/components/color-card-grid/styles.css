@@ -1,0 +1,12 @@
+.cards-grid {
+    margin: 1rem;
+}
+
+.cards-grid > .ant-row > div:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.color-card {
+    width: 200px;
+    height: 300px;
+}
