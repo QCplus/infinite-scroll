@@ -37,9 +37,21 @@ const observerOptions = {
     threshold: 0
 };
 
-const ColorCardGrid = () => {
+export type ColorCardGridProps = {
+    loadDelayActive: boolean;
+}
+
+const ColorCardGrid = (props: ColorCardGridProps) => {
     const [colors, setColors] = React.useState<ColorCardProps[]>([]);
     const [isLoading, setIsLoading] = React.useState(false);
+
+    const loadCards = React.useCallback(() => {
+        const nextColors = generateCards(calcCardsPerLoad());
+
+        setColors((prevColors) => [...prevColors, ...nextColors])
+
+        setIsLoading(false);
+    }, []);
 
     const onIntersect = React.useCallback(() => {
         if (isLoading)
@@ -47,13 +59,11 @@ const ColorCardGrid = () => {
 
         setIsLoading(true);
 
-        setTimeout(() => {
-            const nextColors = generateCards(calcCardsPerLoad());
-
-            setColors((prevColors) => [...prevColors, ...nextColors])
-            setIsLoading(false);
-        }, generateRandomInt(MIN_LOAD_TIME_MS, MAX_LOAD_TIME_MS));
-    }, [isLoading]);
+        if (props.loadDelayActive)
+            setTimeout(loadCards, generateRandomInt(MIN_LOAD_TIME_MS, MAX_LOAD_TIME_MS));
+        else
+            loadCards();
+    }, [isLoading, loadCards]);
 
     const loaderLine = useIntersection(onIntersect, observerOptions)
 

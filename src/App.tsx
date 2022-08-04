@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
-import ColorCardGrid from './components/color-card-grid/component';
+import ColorCardsPage from './pages/color-cards-page';
 
 function App() {
     return (
-        <ColorCardGrid />
+        <ColorCardsPage />
     );
 }
 
